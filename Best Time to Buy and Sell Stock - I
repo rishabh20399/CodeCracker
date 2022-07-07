@@ -1,0 +1,26 @@
+//LOGIC: Start iterating --> if the current element is smaller than the ongoing then keep re-defining the profit -->
+         but if an even smaller element comes, start re-defining the profit in terms of the smaller value since any element bigger than the previous value 
+         would give an even bigger profit with the current smaller value --> if profit made is bigger; re-define profit.
+
+//Time complexity=O(n)
+//Since only 1 for loop
+//Space complexity=O(1)
+//Since no extra space used
+
+class Solution {
+    public int maxProfit(int[] prices) {
+        int profit=0;
+        int index=0;
+        for(int i=0;i<prices.length;i++){
+            int temp=prices[index];
+            if(prices[i]>=temp){
+                if( prices[i]-temp>=profit){
+                    profit=prices[i]-temp;
+                }
+            }else{
+                index=i;
+            }
+        }
+        return profit;
+    }
+}

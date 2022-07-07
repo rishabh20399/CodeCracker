@@ -1,0 +1,45 @@
+//LOGIC: Moore’s Voting algorithm.  Max 2 nos. can occur >n/3 times simultanously. Then we check if any of these two candidates is actually a majority.
+
+//Time Complexity:  O(n)
+//First pass of the algorithm takes complete traversal over the array contributing to O(n) and another O(n) is consumed in checking if count1 and count2 is greater than floor(n/3) times.
+//Space Complexity: O(1)
+//As no extra space is required so space complexity is constant
+
+class Solution {
+    public List<Integer> majorityElement(int[] nums) {
+        int count1=0;
+        int count2=0;
+        int ans1=nums[0];
+        int ans2=nums[0];
+        int n=nums.length;
+        List<Integer> list=new ArrayList<>();
+        
+        for(int i=0; i<nums.length;i++){
+            if(ans1==nums[i]){
+                count1++;
+            }else if(ans2==nums[i]){
+                count2++;
+            }else if(count1==0){
+                ans1=nums[i];
+                count1++;
+            }else if(count2==0){
+                ans2=nums[i];
+                count2++;
+            }else{
+                count1--;
+                count2--;
+            }
+        }
+        
+        count1=0;
+        count2=0;
+        for(int ele:nums){
+            if(ans1==ele){count1++; }
+            else if(ans2==ele){count2++; }
+            else{continue; }
+        }
+        if(count1>n/3){list.add(ans1); }
+        if(count2>n/3){list.add(ans2); }
+        return list;
+    }
+}

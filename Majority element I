@@ -1,0 +1,37 @@
+//Start with ans=arr[0] --> Traverse the array --> count++ if arr[i] ==ans --> count-- if arr[i] !=ans --> 
+//if count becomes zero, then ans=arr[i](the element that makes the count 0) and increase count again
+
+//Time Complexity: O(n). 
+//(As two traversal of the array is needed, so the time complexity is linear.)
+//Auxiliary Space: O(1). 
+//(As no extra space is required.)
+
+class Solution {
+    public int majorityElement(int[] nums) {
+        int count=0;
+        int ans=nums[0];
+        for(int i=0; i<nums.length;i++){
+            if(nums[i]==ans){
+                count++;
+            }else{
+                count--;
+            }  
+            
+            if(count==0){
+                ans=nums[i];
+                count++;
+            }
+        }
+        
+        count=0;
+        for(int i=0; i<nums.length;i++){
+            if(nums[i]==ans){
+                count++;
+            }
+        }
+        if(count>nums.length/2){
+            return ans;
+        }
+        return -1;
+    }
+}

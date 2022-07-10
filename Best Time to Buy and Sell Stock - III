@@ -1,0 +1,28 @@
+https://www.tutorialcup.com/leetcode-solutions/best-time-to-buy-and-sell-stock-iii-leetcode-solution.htm
+
+//LOGIC: Need to find <=2 biggest differences --> Divide the problem --> 4 different numbers --> Iterating only once requires to update each of 4 values at every step -->
+         Assume 1st profit=x --> Second buy(=y) only requires y-x money --> So the second sell gives net profit --> return second sell
+
+//Time complexity
+//The time complexity of the above code is O(n) because we are traversing the price array only once.
+//Space complexity
+//The space complexity of the above code is O(1) because we using memory only to store the answer.
+
+class Solution {
+    public int maxProfit(int[] prices) {
+        int firstSell = 0;
+        int secondSell = 0;
+        int firstBuy = Integer.MAX_VALUE;
+        int secondBuy = Integer.MAX_VALUE;
+        for(int i = 0; i < prices.length; i++) {
+            int p = prices[i];
+            firstBuy = Math.min(firstBuy, p);
+            firstSell = Math.max(firstSell, p - firstBuy);
+            secondBuy = Math.min(secondBuy, p - firstSell);
+            secondSell = Math.max(secondSell, p - secondBuy);
+       }
+  
+       return secondSell;
+
+    }
+}

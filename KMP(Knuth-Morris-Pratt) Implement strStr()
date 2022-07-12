@@ -1,0 +1,85 @@
+BRUTE-FORCE SOLUTION
+
+//LOGIC: Iterating through haystack --> If the element matches needle[0] --> iterate through needle --> if substring matches then return i --> 
+         else continure iterating haystack
+//Time Complexity: O(N*M)
+//Space Complexity: O(1)
+
+class Solution {
+    public int strStr(String haystack, String needle) {
+        if(needle.length()>haystack.length() || needle==null || haystack==null){
+            return -1;
+        }
+        if(needle.length()==0){
+            return 0;
+        }
+        for(int i=0; i<haystack.length()-needle.length()+1;i++){
+            if(haystack.charAt(i)==needle.charAt(0)){
+                if(haystack.substring(i,i+needle.length()).equals(needle)){
+                    return i;
+                }
+            }
+        }
+        return -1;
+    }
+}
+
+OPTIMIZED SOLUTION using KMP
+
+1- https://www.youtube.com/watch?v=V5-7GzOfADQ
+2- https://www.youtube.com/watch?v=EL4ZbRF587g
+
+//LOGIC: Create an array of REQUIRED PARAMETERS(every element points to the last occurrance of the repeating pattern) using while loop --> 
+         Just shift to the last occurrance of the repeating pattern in the needle if the elements are unequal instead of moving the pointer in haystack also -->
+         Basically whenever we encounter a couple of equal elements in haystack to the needle and then an unequal one, instead of moving back both the pointers -->
+         We say that "WAIT...!! LET ME TELL YOU WHERE TO SHIFT THE POINTER AT." -->
+         "WE KNOW THAT THE SUBSTRING CAN LIE IN THE INTERVAL WHERE ELEMENTS WERE EQUAL ONLY IF ANY OF THOSE ELEMENTS ARE EQUAL TO THE -->
+         last occurrance of the repeating pattern.
+         
+//Time Complexity: O(N+H)
+//Space Complexity: O(N)
+
+class Solution {
+    public int strStr(String haystack, String needle) {
+        int h=haystack.length();
+        int n=needle.length();
+        
+        int[] arr=new int[n+1];
+        arr[0]=-1;
+        arr[1]=0;
+        
+        int i=1;
+        int pre=0;
+        
+        while(i<needle.length()){
+            if(needle.charAt(i)==needle.charAt(pre)){
+                i++;
+                pre++;
+                arr[i]=pre;
+            }else if(pre>0){
+                pre=arr[pre];
+            }else{
+                i++;
+                arr[i]=0;
+            }
+        }
+        
+        int k=0;int j=0;
+        while(k<h){
+            if(haystack.charAt(k)==needle.charAt(j)){
+                k++;
+                j++;
+                if(j==n){
+                    return k-j;
+                }
+            }else{
+                j=arr[j];
+                if(j<0){
+                    j++;
+                    k++;
+                }
+            }
+        }
+        return -1;
+    }
+}

@@ -1,4 +1,4 @@
-//Sort array on basis of start element of each range --> Change each element' end to the max b/t its end and the ith index's end --> 
+//Sort array on basis of start element of each range --> Change each element's end to the max b/t its end and the ith index's end --> 
 //--> Replace the next overlapping interval with the next smallest non-overlapping interval --> Slice the array 
 
 //Time Complexity: O(n*log(n))

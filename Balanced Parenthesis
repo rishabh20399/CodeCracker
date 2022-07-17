@@ -1,0 +1,40 @@
+//LOGIC: Traverse the string --> Keep pushing till you get to the first closing parenthesis --> If it matches the stack.peek() then stack.pop() -->
+         Else stack.push() --> i++(INCREASE COUNT) --> Then check if stack.isEmpty() and i<string.length --> stack.push(s.charAt(i)) and i++(INCREASE COUNT)
+//Time Complexity: O(n) 
+//Auxiliary Space: O(n) for stack.          
+
+class Solution {
+    public boolean isValid(String s) {
+        if(s.length()%2!=0){
+            return false;
+        }
+        Stack<String> stk=new Stack<>();
+        stk.push(Character.toString(s.charAt(0)));
+        int i=1;
+        while(i<s.length()){
+            if(opp(stk.peek(),Character.toString(s.charAt(i)))){
+                stk.pop();
+            }else{
+                stk.push(Character.toString(s.charAt(i)));
+            }i++;
+            if(stk.isEmpty() && i<s.length()){
+                stk.push(Character.toString(s.charAt(i)));
+                i++;
+            }    
+        }
+        if(!stk.isEmpty()){
+            return false;
+        }
+        return true;
+    }
+    static boolean opp(String s1,String s2){
+        if (s1.equals("[") && s2.equals("]")){
+            return true;
+        }else if(s1.equals("{") && s2.equals("}")){
+            return true;
+        }else if(s1.equals("(") && s2.equals(")")){
+            return true;
+        }
+        return false;
+    }
+}

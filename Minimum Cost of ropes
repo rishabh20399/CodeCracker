@@ -1,0 +1,32 @@
+//LOGIC: Suppose nos. a,b,c(a>b>c) => [(a+b) +((a+b) +c)] > [(b+c) +((b+c) +a)] => 
+         We need to add up smallest of the nos. initially to prevent the bigger nos. from being added up multiple times =>
+         
+         We use PriorityQueue(i.e. by default MinHeap) to get the 2 smallest nos. everytime --> Then we remove them from the heap --> Get their sum -->
+         Add their sum to the answer --> Add the sum to the queue --> We repeat this process until pq.size()>1 
+         
+//Time Complexity: O(nLogn)
+//Assuming that we use a O(nLogn) sorting algorithm. Note that heap operations like insert and extract take O(Logn) time.
+//Auxiliary Complexity:O(n)
+//The space required to store the values in min heap
+
+
+class Solution
+{
+    //Function to return the minimum cost of connecting the ropes.
+    long minCost(long arr[], int n) 
+    {
+        PriorityQueue<Long> pq=new PriorityQueue<>();
+        long ans=0;
+        for(int i=0;i<n;i++){
+            pq.add(arr[i]);
+        }
+        while(pq.size()>1){
+            long fst=pq.poll();
+            long scnd=pq.poll();
+            long sum=fst+scnd;
+            ans+=sum;
+            pq.add(sum);
+        }
+        return ans;
+    }
+}

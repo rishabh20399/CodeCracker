@@ -1,0 +1,45 @@
+//LOGIC: We need to find the median of all the integers given to us till the point we're asked => We need ascending order => We need to sort --> 
+         But we don't have all the integers of the array at once so we'll need to keep sorting as elements are added => PriorityQueue -->
+         Cause we don't know when we'll be asked for median => we need to have the median at hand --> We need at most 2 elements to calculate median -->
+         We divide the list of integers given to us till point into 2 parts by the middle where one part is MaxHeap and second MinHeap -->
+         In case their size is equal; top elements of both lists are middle elements; else we take the element of MaxHeap and return the median accordingly
+
+//Time Complexity: O(n Log n). 
+//Time Complexity to insert element in min heap is log n. So to insert n element is O( n log n).
+//Auxiliary Space : O(n). 
+//The Space required to store the elements in Heap is O(n).
+ 
+class Solution
+{
+    static Queue<Integer> maxHp=new PriorityQueue<>(Collections.reverseOrder());
+    static Queue<Integer> minHp=new PriorityQueue<>();
+    public static void insertHeap(int x)
+    {
+        if(maxHp.isEmpty() || maxHp.peek()>=x ){
+            maxHp.add(x);
+        }else{
+            minHp.add(x);
+        }
+        balanceHeaps();
+    }
+    
+    //Function to balance heaps.
+    public static void balanceHeaps()
+    {
+       if(maxHp.size()>minHp.size()+1){
+           minHp.add(maxHp.poll());
+       }else if(maxHp.size()<minHp.size()){
+           maxHp.add(minHp.poll());
+       }
+    }
+    
+    //Function to return Median.
+    public static double getMedian()
+    {
+        if(maxHp.size()==minHp.size())  {
+        return (double)(maxHp.peek()+minHp.peek())/2;
+        }  
+        return (double)maxHp.peek();
+    }
+    
+}

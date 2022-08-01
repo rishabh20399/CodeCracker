@@ -1,0 +1,20 @@
+//LOGIC: Keep increasing maxLen till you hit a duplicate --> Start calculating the new lengths from the element next to the previous occurance of the duplicate -->
+         (Keep in mind that some duplicates can throw your ptr furthur back than it already is so ptr always =Math.max(map.get(ele)+1,ptr))
+//Time Complexity: O(N)
+//Space Complexity: O(N) where N represents the size of HashSet where we are storing our elements
+
+class Solution {
+    public int lengthOfLongestSubstring(String s) {
+        HashMap<Character,Integer> map=new HashMap<>();
+        int ptr=0;
+        int maxLen=0;
+        for(int i=0;i<s.length();i++){
+            Character ele=s.charAt(i);
+            if(map.containsKey(ele))
+                ptr=Math.max(map.get(ele)+1,ptr);
+            map.put(ele,i);
+            maxLen=Math.max(i-ptr+1,maxLen); 
+        }
+        return maxLen; 
+    }
+}

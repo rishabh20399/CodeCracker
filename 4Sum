@@ -28,8 +28,7 @@ class Solution {
                         left++; continue;}
                     if(target<sum4 || (right<n-1 && nums[right]==nums[right+1])){ 
                         right--; continue;}
-                    Integer[] temp = {nums[i], nums[j], nums[right], nums[left]};
-                    list.add(Arrays.asList(temp));
+                    list.add(Arrays.asList(nums[i], nums[j], nums[right], nums[left]));
                     left++;
                     right--;
                 }

@@ -76,3 +76,46 @@ class Solution {
         return ans;
     }
 }
+
+
+//Zig-Zag LevelOrder TRAVERSAL(left->right | right->left)
+
+class Solution {
+    
+    public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
+        if(root==null) return new ArrayList<>();
+        boolean flag= true;
+        List<List<Integer>> ans=new ArrayList<>();
+        ArrayDeque<TreeNode> dq=new ArrayDeque<>();
+        dq.addFirst(root);
+        
+        while(!dq.isEmpty()){
+            int size=dq.size();
+            List<Integer> list=new ArrayList<>();
+            for(int i=0;i<size;i++){
+                if(flag==true){
+                    TreeNode curr=dq.pollLast();
+                    list.add(curr.val);
+                    if(curr.left !=null){
+                        dq.addFirst(curr.left);
+                    }
+                    if(curr.right !=null){
+                        dq.addFirst(curr.right);
+                    }
+                }else{
+                    TreeNode curr=dq.pollFirst();
+                    list.add(curr.val);
+                    if(curr.right !=null){
+                        dq.addLast(curr.right);
+                    }
+                    if(curr.left !=null){
+                        dq.addLast(curr.left);
+                    }
+                }
+            }  
+            flag = !flag;
+            ans.add(list);   
+        }
+        return ans;
+    }
+}

@@ -1,0 +1,19 @@
+//LOGIC: Invert the left subtree --> then the right subtree --> then the current left and right nodes --> Finally return the root
+
+class Solution {
+    public TreeNode invertTree(TreeNode root) {
+        if(root==null) return root;
+        
+        if(root.left !=null){
+            root.left=invertTree( root.left);
+        }
+        if(root.right !=null){
+            root.right=invertTree( root.right);
+        }
+        
+        TreeNode temp=root.left;
+        root.left=root.right;
+        root.right=temp;
+        return root;
+    }
+}

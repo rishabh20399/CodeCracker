@@ -1,0 +1,39 @@
+//LOGIC: Use queue --> Add root --> While K>0 --> Use a for loop to add the children(if thery're not null) of the next node you take out from the queue
+
+//Time Complexity: O(N)
+//Since every node is visited once in the worst case scenario
+//Auxillary Space: O(N)
+//Since we use a queue
+
+public class Solution {
+
+    public static int sumAtKthLevel(TreeNode<Integer> root, int k) {
+
+        Queue<TreeNode<Integer>> q=new LinkedList<>();
+        q.add(root);
+        k-=1;
+        
+        while(k>0){
+            int size=q.size();
+            for(int i=0;i<size;i++){
+                TreeNode<Integer> curr= q.poll();
+                
+                if(curr.left !=null){
+                    q.add(curr.left);
+                }
+                if(curr.right !=null){
+                    q.add(curr.right);
+                }
+            }
+            k-=1;
+        }
+        
+        int size=q.size();
+        int sum=0;
+        for(int i=0;i<size;i++){
+            sum+=q.poll().data;
+        }
+        return sum;
+    }
+
+}

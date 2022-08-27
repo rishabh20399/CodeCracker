@@ -1,0 +1,47 @@
+APPROACH 1:(SLOW)
+
+class info{
+    int ht;
+    boolean status;
+    info(int ht,boolean status){
+        this.ht=ht;
+        this.status=status;
+    }
+}
+class Solution {
+    public boolean isBalanced(TreeNode root) {
+        info myinfo=check(root);
+        return myinfo.status;
+    }
+    public info check(TreeNode root) {
+        if(root==null){
+            info myinfo=new info(0,true);
+            return myinfo;
+        }
+        info left=check(root.left);
+        info right=check(root.right);
+        
+        info myinfo=new info(0,true);
+        myinfo.ht=Math.max(left.ht,right.ht)+1;
+        if(Math.abs(left.ht-right.ht)>1 || left.status==false ||right.status==false){ 
+            myinfo.status=false;
+        }
+        return myinfo;
+    }
+}
+
+
+APPROACH 2:(FASTER)
+
+class Solution {
+    public boolean isBalanced(TreeNode root) {
+        if(root==null) return true;
+        return isBalanced(root.left) && isBalanced(root.right) && (Math.abs(ht(root.left)-ht(root.right))<=1);
+    }
+    public int ht(TreeNode root) {
+        if(root==null){
+            return 0;
+        }
+        return Math.max(ht(root.left),ht(root.right))+1;
+    }
+}

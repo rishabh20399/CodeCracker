@@ -1,0 +1,22 @@
+//LOGIC: We have NODE as a return type so there are 3 types of possibilities if we go by our traditional left & right subtree approach -->
+         If we return the root in cases (root == null || root == p || root == q) i.e. we return null in case our root is not p/q and we keep returning p/q 
+         until we find a node that recieves nodes(instead of null) as returned value for BOTH left and right subtree ; we see that the 3 cases are -->
+         Either one of the nodes returned by the left & right subtree is null or both are null or both are NOT null(in which case we return the root at hand)
+         
+//Time Complexity: O(N)
+//Since each node is visited only once
+//Auxillary Space Complexity: O(1)
+//No extra space used
+
+class Solution {
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        if(root==null || root==p || root==q) return root;
+        
+        TreeNode left=lowestCommonAncestor(root.left,p,q);
+        TreeNode right=lowestCommonAncestor(root.right,p,q);
+        
+        if(left==null) return right;
+        if(right==null) return left;
+        return root;
+    }
+}

@@ -28,6 +28,7 @@ OPTIMIZED SOLUTION using KMP
 
 1- https://www.youtube.com/watch?v=V5-7GzOfADQ
 2- https://www.youtube.com/watch?v=EL4ZbRF587g
+3- https://www.youtube.com/watch?v=4jY57Ehc14Y&ab_channel=LogicFirst
 
 //LOGIC: Create an array of REQUIRED PARAMETERS(every element points to the last occurrance of the repeating pattern) using while loop --> 
          Just shift to the last occurrance of the repeating pattern in the needle if the elements are unequal instead of moving the pointer in haystack also -->
@@ -51,7 +52,7 @@ class Solution {
         int i=1;
         int pre=0;
         
-        while(i<needle.length()){
+        while(i<n){
             if(needle.charAt(i)==needle.charAt(pre)){
                 i++;
                 pre++;

@@ -27,3 +27,47 @@ class Solution {
         return ans;
     }
 }
+
+//Alternate Solution(Using Deque)
+
+//LOGIC: Run a loop k times to input 1st k elements of nums[] to dq --> Now remove all elements smaller than the current nums[i] --> dq.addLast(i)
+         Now run a loop (n-k) times -->  
+         First remove all old elements whose index<=i-k -->
+         Now remove all elements smaller than the current nums[i] -->
+         Now add nums[i] to dq -->
+         Now add the nums[dq.peek()] to ans[i-k+1]
+
+//Time Complexity: O(N)
+//Since each element of the nums[] is accessed only once
+
+//Space Complexity: O(K)
+//Since max no. of elements in dq at a time is k
+
+class Solution {
+    public int[] maxSlidingWindow(int[] nums, int k) {
+        int n=nums.length;
+        int[] ans=new int[n-k+1];
+        ArrayDeque<Integer> dq =new ArrayDeque<>();
+        
+        for(int i=0;i<k;i++){
+            while(!dq.isEmpty() && nums[dq.peekLast()]<=nums[i]){ 
+                dq.removeLast();
+            }    
+            dq.addLast(i);
+        }
+        ans[0]=nums[dq.peek()];
+
+        for(int i=k; i<n; i++){
+            
+            while(!dq.isEmpty() && i-k>=dq.peek()){ 
+                dq.removeFirst();
+            }
+            while(!dq.isEmpty() && nums[i]>=nums[dq.peekLast()]){ 
+                dq.removeLast();
+            }
+            dq.addLast(i);
+            ans[i-k+1]=nums[dq.peek()];
+        }
+        return ans;
+    }
+}

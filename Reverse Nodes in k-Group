@@ -1,0 +1,70 @@
+//LOGIC: 3 POINTERS in total i.e. LAST,PREV,NEXT --> FIRST take the prev pointer to the head of the next grp -->
+         SECOND start reversing the 1st k grp --> You may observe that after the 1st loop, position of pointers is: PREV.........LAST||CURR..........||........... -->
+         THIRD reassign "head" node and then call the functon to modify the rest --> 
+         The same loop is repeated with starting coordinates .........LAST|->|(CURR/PREV).........|->|......... -->
+         Each time the PREV has to reached to the head next grp: .........LAST|->|CURR.........|->|PREV......... -->
+         BUT each time when the loop ends, the connection b/t LAST and head of next grp has to be updated as the head has changed: .........LAST|()|PREV.........TEMP(LAST.NEXT)|->|CURR......... -->
+         (*)HENCE we do (last.next=prev) --> .........|->|.........LAST||(PREV/CURR)......... ->
+         (*)LASTLY we recursively keep calling the function until the CURR(i.e. head of the next grp) is NULL or the next grp is incomplete -->
+//NOTE(*): That store the temp=last.next(head of the next grp) as its going to tail of the next grp and we pass it of as LAST in next recursive function call:
+           The state before the next recursion starts is: .........|->|.........TEMP(LAST.NEXT)|->|(PREV/CURR)......... 
+           
+//Time Complexity: O(N) (i.e. k+|(n/k)|*2k)  
+//Since there occur |(n/k)| recursions and each recursion has 2 loops of k times 
+
+//Space Complexity: O(1)
+//Since no extra space is required
+
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+    public ListNode reverseKGroup(ListNode head, int k) {
+        // ListNode prev=null;
+        ListNode last=head;
+        ListNode curr=head;
+        ListNode prev=head;
+
+        for(int i=0;i<k;i++){
+            prev=prev.next;
+        }
+        for(int i=0;i<k;i++){
+            ListNode temp=curr.next;
+            curr.next=prev;
+            prev=curr;
+            curr=temp;
+        }
+        head=prev;
+        func(last,curr,curr,k);
+        return head;
+    } 
+
+    static void func(ListNode last,ListNode prev,ListNode curr,int k){
+        if(curr==null) return;
+        // int count=0;
+        for(int i=0;i<k;i++){
+            // count++;
+            if(prev==null) return;
+            //break;
+            prev=prev.next;
+        }
+        // while(count!=0)
+        for(int i=0;i<k;i++){
+            ListNode temp=curr.next;
+            curr.next=prev;
+            prev=curr;
+            curr=temp;
+            // count--;
+        }
+        ListNode temp=last.next;
+        last.next=prev;
+        func(temp,curr,curr,k);
+    }
+}

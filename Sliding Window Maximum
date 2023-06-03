@@ -1,0 +1,29 @@
+//LOGIC: Run a loop k times to input 1st k elements of nums[] to pq --> get the biggest element to ans[] --> remove nums[0] since window has moved forward -->
+         --> NOW start a loop (n-k) times --> add nums[i] to pq --> add biggest element to ans[] --> remove nums[i-k+1] from pq since window has moved forward
+
+//Time Complexity: O(nlogn)
+//Since time taked by pq to form max heap os logn and it does so n times.
+
+//Space Compleity: O(k)
+//Since max no. of elements in pq at a time is k
+
+class Solution {
+    public int[] maxSlidingWindow(int[] nums, int k) {
+        int n=nums.length;
+        int[] ans=new int[n-k+1];
+        PriorityQueue<Integer> pq=new PriorityQueue<>(Collections.reverseOrder());
+        for(int i=0;i<k;i++){
+            pq.add(nums[i]);
+        }
+        ans[0]=pq.peek();
+        pq.remove(nums[0]);
+        
+        for(int i=k;i<n;i++){
+            pq.add(nums[i]);
+            ans[i-k+1]=pq.peek();
+            pq.remove(nums[i-k+1]);
+        }
+        
+        return ans;
+    }
+}

@@ -1,10 +1,12 @@
+//(Using BFS... QUEUE)
 //LOGIC: (Using queue same way as level order traversal) --> FIRST make adjacency list --> SECOND make visited[] boolean array --> THIRD put the source in queue & start while loop till (!que.isEmpty()) -->
          The while loop will return TRUE if destination is reached --> else the destination cannot be reached according to adjacency list
          
 //Time Complexity: O(E+V)
+//Since each element in ArrayList is visited ONLY ONCE and size of ArrayList is (V+E)
 //Since each vertex is visited turnwise(ONLY ONCE) and each edge is operated upon ONLY ONCE(i.e. if(visited[i]==false)).
 
-//Space Compexity: O(N^2)
+//Space Compexity: O(E*V)
 //Since ArrayList can have N^2 elements if each vertex connected to each other.
 
 class Solution {
@@ -39,7 +41,93 @@ class Solution {
             } 
         }
         return false;
+    }
+}
+
+//Alternate(Using DFS... STACK)
+//LOGIC: Same as BFS but we use recursion to implement it in form of DFS
+
+//Time Complexity: O(E+V)
+//Since each element in ArrayList is visited ONLY ONCE and size of ArrayList is (V+E).
+
+//Time Complexity: O(E*V)
+//Since size of the ArrayList.
+
+class Solution {
+    public boolean validPath(int n, int[][] edges, int source, int destination) {
+        ArrayList<ArrayList<Integer>> adj=new ArrayList<>();
+        for(int i=0;i<n ;i++) adj.add(new ArrayList<Integer>());
         
+        for(int i=0;i<edges.length ;i++){
+            int u=edges[i][0];
+            int v=edges[i][1];
+            adj.get(u).add(v);
+            adj.get(v).add(u);
+        }
+
+        Stack<Integer> que=new Stack<>();
+        boolean[] visited=new boolean[n+1];
+        for(int i=0;i<=n;i++) visited[i]=false;
+
+        visited[source]=true;
+        que.push(source);
+
+        while(!que.isEmpty()){
+            int vertex=que.peek();
+            que.pop();
+
+            if(vertex==destination) return true;
+            for(int i: adj.get(vertex)){
+                if(visited[i]==false){
+                    que.push(i);
+                    visited[i]=true;
+                }
+            } 
+        }
+        return false;
+    }
+}
+
+//Alternate(Using DFS... RECURSION)
+//LOGIC: Same as BFS but we use recursion to implement it in form of DFS
+
+//Time Complexity: O(E+V)
+//Since each element in ArrayList is visited ONLY ONCE and size of ArrayList is (V+E).
+
+//Time Complexity: O(E*V)
+//Since size of the ArrayList.
+
+class Solution {
+    public boolean validPath(int n, int[][] edges, int source, int destination) {
+        ArrayList<ArrayList<Integer>> adj=new ArrayList<>();
+        for(int i=0;i<n ;i++) adj.add(new ArrayList<Integer>());
+        
+        for(int i=0;i<edges.length ;i++){
+            int u=edges[i][0];
+            int v=edges[i][1];
+            adj.get(u).add(v);
+            adj.get(v).add(u);
+        }
+
+        boolean[] visited=new boolean[n+1];
+        for(int i=0;i<=n;i++) visited[i]=false;
+
+        visited[source]=true;
+
+        return dfs(adj,visited,source,destination);
+    }
+
+    static boolean dfs(ArrayList<ArrayList<Integer>> adj,boolean[] visited,int vertex,int destination){
+        if(vertex==destination){
+            return true;
+        } 
+        for(int i: adj.get(vertex)){
+            if(visited[i]==false){
+                visited[i]=true;
+                if(dfs(adj,visited,i,destination)) return true;
+            }
+        } 
+        return false;
 
     }
 }

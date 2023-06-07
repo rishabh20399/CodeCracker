@@ -1,0 +1,45 @@
+//LOGIC: (Using queue same way as level order traversal) --> FIRST make adjacency list --> SECOND make visited[] boolean array --> THIRD put the source in queue & start while loop till (!que.isEmpty()) -->
+         The while loop will return TRUE if destination is reached --> else the destination cannot be reached according to adjacency list
+         
+//Time Complexity: O(E+V)
+//Since each vertex is visited turnwise(ONLY ONCE) and each edge is operated upon ONLY ONCE(i.e. if(visited[i]==false)).
+
+//Space Compexity: O(N^2)
+//Since ArrayList can have N^2 elements if each vertex connected to each other.
+
+class Solution {
+    public boolean validPath(int n, int[][] edges, int source, int destination) {
+        ArrayList<ArrayList<Integer>> adj=new ArrayList<>();
+        for(int i=0;i<n ;i++) adj.add(new ArrayList<Integer>());
+        
+        for(int i=0;i<edges.length ;i++){
+            int u=edges[i][0];
+            int v=edges[i][1];
+            adj.get(u).add(v);
+            adj.get(v).add(u);
+        }
+
+        Queue<Integer> que=new LinkedList<>();
+        boolean[] visited=new boolean[n+1];
+        for(int i=0;i<=n;i++) visited[i]=false;
+
+        visited[source]=true;
+        que.add(source);
+
+        while(!que.isEmpty()){
+            int vertex=que.peek();
+            que.poll();
+
+            if(vertex==destination) return true;
+            for(int i: adj.get(vertex)){
+                if(visited[i]==false){
+                    que.add(i);
+                    visited[i]=true;
+                }
+            } 
+        }
+        return false;
+        
+
+    }
+}

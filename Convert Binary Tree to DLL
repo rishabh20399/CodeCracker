@@ -1,0 +1,50 @@
+//LOGIC: Using Inorder traversal --> The prev and head are made global as:
+                                     prev=> If its not made global, it will have null value twice, 1st left of leftmost node, 2nd at root as func(prev,curr) has prev=null at start
+                                     head=> So that its value can be modified by the void func() and returned by main()
+         --> First we reached the leftmost node of the tree --> we see that its left child i.e. prev is null so we make it head
+         --> Then we modify the pointers --> Finally change the prev to curr for future
+
+/* class Node
+class Node
+{
+	Node left, right;
+	int data;
+	
+	Node(int d)
+	{
+		data = d;
+		left = right = null;
+	}
+	
+}*/
+
+//This function should return head to the DLL
+
+class Solution
+{
+    static Node head,prev;
+    //Function to convert binary tree to doubly linked list and return it.
+    Node bToDLL(Node root)
+    {
+        if(root==null) return root;
+        head=null;
+        prev=null;
+	    func( root);
+	    
+	    return head;
+    }
+    
+    static void func(Node curr){
+        if(curr==null) return;
+        
+        func(curr.left);
+        if(prev==null) head=curr;
+        else{
+            prev.right=curr;
+            curr.left=prev;
+        }
+        prev=curr;
+    
+        func(curr.right);
+    }
+}

@@ -1,0 +1,31 @@
+//LOGIC: 4 cases possible:(IMAGINE BASIC BINARY TREE)
+           a) Either the current node is p/q
+           b) Or both nodes are in the SAME left/right subtree
+           c) Or both nodes are in DIFFERENT left/right subtree
+           d) Or NONE of given nodes are present in the given tree (NOTE: that case where ONLY one node is present in the tree isn't possible)
+
+         -->All 4 cases were handled in a PREORDER fashioned recursion.
+
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        if(root==null) return null;
+
+        if(root==p||root==q) return root;
+        TreeNode left=lowestCommonAncestor(root.left,p,q);
+        TreeNode right=lowestCommonAncestor(root.right,p,q);
+
+        if(left==null) return right;
+        if(right==null) return left;
+
+        return root;
+    }
+}

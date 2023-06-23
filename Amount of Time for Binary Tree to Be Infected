@@ -1,0 +1,72 @@
+//LOGIC: We use height function as base --> We need to measure 3 lengths :
+                                            a) The lengths of LEFT and RIGHT subtree of TARGET/START
+                                            b) The Depth + 1(root) + maxHeight (of the subtree of root NOT containing TARGET/START)
+         --> We define ld & rd for node as we start from the root and don't know where the TARGET node might be, so we update depth.d ONLY when we find it. And then 
+         we subsequently put the conditions to update depth.d ONLY when (ld.d != -1)/(rd.d != -1) before returning height.
+
+         --> We keep updating the answer for each node i.e. ancestor to the TARGET node as we reverse back up the tree. There are 3 cases in which the answer is updated:
+            a) If the current node has (ld.d != -1)/(rd.d != -1) in which case we need check the opposite subtree of that node has bigger dist(Depth + 1(root) + maxHeight)
+               than the current value of ans.
+            b) Else for taking into the heights of the LEFT & RIGHT subtrees of the TARGET node, we also keep updating the ans.
+
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    static int ans;
+
+    static class Depth {
+        int d;
+
+        public Depth(int d) {
+            this.d = d;
+        }
+    }
+
+    public int amountOfTime(TreeNode root, int start) {
+        ans = 0;
+        Depth depth = new Depth(-1);
+        func(start, root, depth);
+        return ans;
+    }
+
+    static int func(int target, TreeNode root, Depth depth) {
+        if (root == null) return 0;
+        if (root.val == target) {
+            depth.d = 0;
+            // return 1;
+        }
+
+        Depth ld = new Depth(-1);
+        Depth rd = new Depth(-1);
+
+        int lh = func(target, root.left, ld);
+        int rh = func(target, root.right, rd);
+        int maxH=Math.max(lh,rh);
+
+        if (ld.d != -1) {
+            ans =  Math.max(ans, ld.d + 1 + rh);
+            depth.d = ld.d + 1;
+        } else if (rd.d != -1) {
+            ans = Math.max(ans, rd.d + 1 + lh);
+            depth.d = rd.d + 1;
+        } else {
+            ans = Math.max(ans,maxH);
+        }
+
+        return maxH + 1;
+    }
+}
+

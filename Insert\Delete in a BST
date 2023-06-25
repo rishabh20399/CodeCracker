@@ -1,3 +1,5 @@
+//INSERTION...
+
 /**
  * Definition for a binary tree node.
  * public class TreeNode {
@@ -13,6 +15,14 @@
  *     }
  * }
  */
+//(Using RECURSION...)
+
+//Time Complexity: O(N)
+//Since in the worst case(when the tree is straight diagonal).
+
+//Space Complexity: O(logN)
+//Since space occupied by the recursive stack equals height of the tree
+
 class Solution {
     public TreeNode insertIntoBST(TreeNode root, int val) {
         if(root==null){
@@ -20,6 +30,33 @@ class Solution {
         } 
         if(root.val<val) root.right=insertIntoBST(root.right,val);
         if(root.val>val) root.left=insertIntoBST(root.left,val);
+        return root;
+    }
+}
+
+(Using ITERATION...)
+
+//Time Complexity: O(N)
+//Since in the worst case(when the tree is straight diagonal).
+
+//Space Complexity: O(1)
+//Since the space occupied by the iteration is 0.
+
+class Solution {
+    public TreeNode insertIntoBST(TreeNode root, int val) {
+        if(root==null){
+            return new TreeNode(val);
+        } 
+        TreeNode curr= root;
+        TreeNode key=new TreeNode(val);
+        TreeNode parent= new TreeNode();
+        while(curr!=null){
+            parent=curr;
+            if(curr.val<val) curr=curr.right;
+            else curr=curr.left;
+        }
+        if(parent.val<val) parent.right=key;
+        else parent.left=key;
         return root;
     }
 }

@@ -60,3 +60,67 @@ class Solution {
         return root;
     }
 }
+
+
+
+//DELETION...
+
+//LOGIC: 4 Possibilities after finding the key:
+         a) Left side is NULL --> Return its Right child
+         b) Right side is NULL --> Return its Left child
+         c) Both sides NULL --> Return NULL(Taken care of in above scenarios)
+         d) None sides NULL --> Replace the key with the smallest node i.e. greater than it and then delete that node.
+                                (Referring to the leftmost node in its right subtree)
+
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    public TreeNode deleteNode(TreeNode root, int key) {
+        return removeNode(root,key);
+    }
+
+    static TreeNode removeNode(TreeNode root, int key){
+        // System.out.println("test1 "+root.val);
+        if(root==null) return root;
+        
+        if(root.val>key){
+            // System.out.println("test2a "+root.val);
+            root.left=removeNode(root.left,key);
+        }  
+        else if(root.val<key){
+            // System.out.println("test2b "+root.val);
+            root.right=removeNode(root.right,key);
+        } 
+        else{
+            if(root.left==null) return root.right;
+            else if(root.right==null) return root.left;
+            root.val=minValue(root.right);
+            root.right=removeNode(root.right,root.val);
+        }
+        // System.out.println("test1a "+root.val);
+        return root;
+    }
+
+    static int minValue(TreeNode root){
+            // System.out.println("test3 "+root.val);
+        int min=root.val;
+        while(root.left!=null){
+            min=root.left.val;
+            root=root.left;
+        }
+        return min;
+    }
+}

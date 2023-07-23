@@ -1,0 +1,46 @@
+//LOGIC: Using the Inorder traversal, just need to make sure each next element is bigger than the previous one
+         --> Java passes the variables by value, so updating prev inside the func function won't affect the variable outside the function. 
+         --> We used wrapper class to store 'prev'
+
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    public boolean isValidBST(TreeNode root) {
+        PrevValue prev = new PrevValue(null);
+        return func(root, prev);
+    }
+
+    static boolean func(TreeNode root, PrevValue prev) {
+        if (root == null) return true;
+
+        if (!func(root.left, prev)) return false;
+        
+        // Check if the current node's value is greater than the previous value (prev.value).
+        if (prev.value != null && root.val <= prev.value) return false;
+        
+        // Update the previous value to the current node's value for the right subtree.
+        prev.value = root.val;
+        
+        return func(root.right, prev);
+    }
+}
+
+class PrevValue {
+    Integer value;
+    PrevValue(Integer value) {
+        this.value = value;
+    }
+}
